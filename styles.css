@@ -5,6 +5,7 @@
   height: 20em;
   background-color: #75BAA8;
   border: #F2CC67 solid;
+  font-family: 'Josefin Sans', sans-serif;
 }
 header {
   text-align: center;
@@ -15,10 +16,17 @@ h2 {
 }
 ul {
   list-style-type: none;
+  background-color: #FFE1C9;
+  border: #F2CC67 solid;
 }
 .input-field {
   width: 39.7em;
   text-align: center;
   height: 3em;
   border-bottom: #F2CC67 solid;
+}
+button {
+  color: #FFF;
+  background-color: #F38264;
+  border: #288D85 solid 3px;
 }

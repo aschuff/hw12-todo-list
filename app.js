@@ -16,28 +16,59 @@ var toDoPage = {
     //Add New ToDo to the page
     $('form').on('submit', function(event){
      event.preventDefault();
-     var newText = {
+     var newToDo = {
        todo: $(this).children('input').val(),
-       completed: false
+      //  completed: false
      }
-     toDoPage.createToDo(newText)
-     $('form ul').append(`<li><a href="">&#x270A;</a>${newText.todo}</li>`);
+     toDoPage.createToDo(newToDo)
+     $('form ul').append(`<li><a href=""><input type="checkbox"></a>${newToDo.todo}</li>`);
      $(this).children('input').val('');
    })
-  //Delete ToDos
+
+// checkbox
+// ('li').prop('checked')
+
+  //Show All ToDos
+  $('#all').on('click',function(event){
+    event.preventDefault();
+    console.log("Showing All");
+  })
+
+  //Active ToDos
+  $('#active').on('click',function(event){
+    event.preventDefault();
+    console.log("Active ToDos");
+  })
+
+  //Completed ToDos
+  $('#completed').on('click',function(event){
+    event.preventDefault();
+    console.log("Completed ToDos");
+
+  })
+  //Clear ToDos
    $('#clear').on('click',function(event){
      event.preventDefault();
+     var todoId = $(this).parent().data('id');
+     toDoPage.deleteToDos(todoId);
      console.log("cleared");
-     $(this).toggleClass('strike').fadeOut();
    })
 
-  //
+  //Edit ToDos
+  $('#edit').on('click',function(event){
+    event.preventDefault();
+    console.log("Edited ToDos");
+    // var $edit = ('#edit')
+    // var listToUpdate = {
+    //
+    // }
+  })
  },
-createToDo: function(newText) {
+createToDo: function(newToDo) {
   $.ajax({
     url: toDoPage.url,
     method: "POST",
-    data: newText,
+    data: newToDo,
     success: function(data){
       console.log("Created Successfully!",data);
     },
@@ -50,9 +81,10 @@ updateToDos: function(){
   $.ajax({
     url: toDoPage.url,
     method: "POST",
-    data: newText,
+    data: newToDo,
     success: function(){
-      console.log("Updated Successfully!");
+      console.log("Updated Successfully!",data);
+      toDoPage.getToDos();
     },
     error: function(err) {
       console.error("Did not update!");
@@ -74,12 +106,14 @@ getToDos: function() {
     }
   })
 },
-deleteToDos: function() {
+deleteToDos: function(todoId) {
+  var deleteUrl = toDoPage.url + "/" + todoId;
   $.ajax({
-    url: toDoPage.url,
+    url: deleteUrl,
     method: "DELETE",
     success: function(){
-      console.log("Deleted!");
+      console.log("Deleted!",data);
+      toDoPage.getToDos();
     },
     error: function(err) {
       console.error("Didn't Delete!");
