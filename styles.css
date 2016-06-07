@@ -1,0 +1,24 @@
+.pageContainer {
+  margin: 0 auto;
+  width: 45%;
+  border: coral solid;
+  height: 20em;
+  background-color: #75BAA8;
+  border: #F2CC67 solid;
+}
+header {
+  text-align: center;
+  border-bottom: #F2CC67 solid;
+}
+h2 {
+  color: #FFF;
+}
+ul {
+  list-style-type: none;
+}
+.input-field {
+  width: 39.7em;
+  text-align: center;
+  height: 3em;
+  border-bottom: #F2CC67 solid;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="styles.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div class="pageContainer">
+
+    <header>
+      <h2>tuhDos</h2>
+    </header>
+
+<div class="inputs">
+  <form class="">
+    <input class="input-field" type="text" name="typetext" value=""  placeholder="Enter Thing TuhDo Here" />
+    <ul>
+
+    </ul>
+    <!-- <textarea class="input-field" name="content" rows="5" cols="40" placeholder="Thing TuhDid"> </textarea> -->
+    <!-- <input type="checkbox" name="done" value="Done"> -->
+  </form>
+</div>
+  <div class="remainingToDos">
+    <button id="all" type="button" name="all">All</button>
+    <button id="active" type="button" name="active">Active</button>
+    <button id="completed" type="button" name="completed">Completed</button>
+    <button id="clear" type="button" name="clear">Clear Completed</button>
+    <button id="edit" type="button" name="edit">Double-click to Edit a TuhDo</button>
+  </div>
+
+    </div>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/underscore/underscore.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+  </body>
+</html>
