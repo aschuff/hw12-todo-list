@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 var toDoPage = {
   url: 'http://tiny-tiny.herokuapp.com/collections/tuhdolist',
-  // toDoList: [],
+  toDoList: [],
   init: function() {
     toDoPage.styling();
     toDoPage.events();
@@ -18,7 +18,7 @@ var toDoPage = {
      event.preventDefault();
      var newToDo = {
        todo: $(this).children('input').val(),
-      //  completed: false
+       completed: false
      }
      toDoPage.createToDo(newToDo)
      $('form ul').append(`<li><a href=""><input type="checkbox"></a>${newToDo.todo}</li>`);
@@ -31,27 +31,37 @@ var toDoPage = {
   //Show All ToDos
   $('#all').on('click',function(event){
     event.preventDefault();
-    console.log("Showing All");
+    var allToDos = ('ul').val()
+    console.log("Showing All", allToDos);
   })
+  toDoPage.getToDos(allToDos);
 
-  //Active ToDos
+  //Active ToDos - the ones that aren't done/complete
   $('#active').on('click',function(event){
     event.preventDefault();
-    console.log("Active ToDos");
+    console.log("Active ToDos",data);
+
   })
 
   //Completed ToDos
-  $('#completed').on('click',function(event){
+  $('#completed').on('click', 'checkbox',function(event){
     event.preventDefault();
     console.log("Completed ToDos");
-
   })
-  //Clear ToDos
-   $('#clear').on('click',function(event){
+
+  // checkbox
+    // $('li').prop('checked', function (event){
+    //
+    // })
+
+  //Clear/Delete ToDos
+   $(document).on('click', 'a', function(event){
      event.preventDefault();
-     var todoId = $(this).parent().data('id');
-     toDoPage.deleteToDos(todoId);
-     console.log("cleared");
+     var deleteToDoId = $(this).parent().data('id');
+     console.log("cleared",deleteToDoId);
+
+     $(this).parent().remove();
+     toDoPage.deleteToDos(deleteToDoId);
    })
 
   //Edit ToDos
@@ -77,20 +87,6 @@ createToDo: function(newToDo) {
     }
   })
 },
-updateToDos: function(){
-  $.ajax({
-    url: toDoPage.url,
-    method: "POST",
-    data: newToDo,
-    success: function(){
-      console.log("Updated Successfully!",data);
-      toDoPage.getToDos();
-    },
-    error: function(err) {
-      console.error("Did not update!");
-    }
-  })
-},
 getToDos: function() {
   $.ajax({
     url: toDoPage.url,
@@ -106,13 +102,27 @@ getToDos: function() {
     }
   })
 },
-deleteToDos: function(todoId) {
-  var deleteUrl = toDoPage.url + "/" + todoId;
+updateToDos: function(){
+  $.ajax({
+    url: toDoPage.url,
+    method: "POST",
+    data: newToDo,
+    success: function(){
+      console.log("Updated Successfully!",data);
+      toDoPage.getToDos();
+    },
+    error: function(err) {
+      console.error("Did not update!");
+    }
+  })
+},
+deleteToDos: function(deleteToDoId) {
+  var deleteUrl = toDoPage.url + "/" + deleteToDoId;
   $.ajax({
     url: deleteUrl,
     method: "DELETE",
     success: function(){
-      console.log("Deleted!",data);
+      console.log("Deleted!");
       toDoPage.getToDos();
     },
     error: function(err) {
