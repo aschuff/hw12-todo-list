@@ -21,58 +21,38 @@ var toDoPage = {
        completed: false
      }
      toDoPage.createToDo(newToDo)
-     $('form ul').append(`<li><a href=""><input type="checkbox"></a>${newToDo.todo}</li>`);
      $(this).children('input').val('');
    })
 
-// checkbox
-// ('li').prop('checked')
-
-  //Show All ToDos
-  $('#all').on('click',function(event){
-    event.preventDefault();
-    var allToDos = ('ul').val()
-    console.log("Showing All", allToDos);
-  })
-  toDoPage.getToDos(allToDos);
-
-  //Active ToDos - the ones that aren't done/complete
-  $('#active').on('click',function(event){
-    event.preventDefault();
-    console.log("Active ToDos",data);
-
-  })
-
-  //Completed ToDos
-  $('#completed').on('click', 'checkbox',function(event){
-    event.preventDefault();
-    console.log("Completed ToDos");
-  })
-
-  // checkbox
-    // $('li').prop('checked', function (event){
-    //
-    // })
-
   //Clear/Delete ToDos
-   $(document).on('click', 'a', function(event){
+   $('ul').on('click', 'a', function(event){
      event.preventDefault();
      var deleteToDoId = $(this).parent().data('id');
      console.log("cleared",deleteToDoId);
 
+    //  $(this).css('text-decoration','line-through')
      $(this).parent().remove();
      toDoPage.deleteToDos(deleteToDoId);
    })
 
   //Edit ToDos
-  $('#edit').on('click',function(event){
-    event.preventDefault();
-    console.log("Edited ToDos");
-    // var $edit = ('#edit')
-    // var listToUpdate = {
-    //
-    // }
-  })
+  //  Stores the data when enter is pressed
+   $('ul').on('keypress', 'li',function(event){
+     if (event.which === 13) {
+       event.preventDefault();
+       var update = $(this).data('id');
+       var newText = $(this).text();
+       var newCompleted = $(this).data('completed');
+       var objToUpdate = {
+        _id: update,
+        todo: newText,
+        completed: newCompleted,
+      }
+      console.log("TEST", objToUpdate)
+      toDoPage.updateToDos(objToUpdate)
+
+     }
+   })
  },
 createToDo: function(newToDo) {
   $.ajax({
@@ -81,6 +61,8 @@ createToDo: function(newToDo) {
     data: newToDo,
     success: function(data){
       console.log("Created Successfully!",data);
+      $('form ul').append(`<li contenteditable="true" data-id="${data._id}" data-completed="${data.completed}"><a href="">&#10003;</a>${data.todo}</li>`);
+      toDoPage.toDoList.push(data);
     },
     error: function(err) {
       console.error("Did not create!");
@@ -93,8 +75,11 @@ getToDos: function() {
     method: "GET",
     success: function(data){
       console.log("We got it!",data);
-      data.map(function(element){
-       $('form ul').append(`<li>${element.todo}</li>`);
+      $('.counter').find('h5').text('toDos Left: ' + data.length);
+      $('form ul').html("")
+      data.forEach(function(element){
+        toDoPage.toDoList.push(element);
+       $('form ul').append(`<li contenteditable="true" data-id="${element._id}" data-completed="${element.completed}"><a href="#">&#10003;</a>${element.todo}</li>`);
       })
     },
     error: function(err) {
@@ -102,12 +87,13 @@ getToDos: function() {
     }
   })
 },
-updateToDos: function(){
+updateToDos: function(updateToDos){
+  var updateUrl = toDoPage.url + "/" + updateToDos._id;
   $.ajax({
-    url: toDoPage.url,
-    method: "POST",
-    data: newToDo,
-    success: function(){
+    url: updateUrl,
+    method: "PUT",
+    data: updateToDos,
+    success: function(data){
       console.log("Updated Successfully!",data);
       toDoPage.getToDos();
     },

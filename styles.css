@@ -6,6 +6,7 @@
   background-color: #75BAA8;
   border: #F2CC67 solid;
   font-family: 'Josefin Sans', sans-serif;
+  color: #FFF;
 }
 header {
   text-align: center;
@@ -25,8 +26,6 @@ ul {
   height: 3em;
   border-bottom: #F2CC67 solid;
 }
-button {
+h5 {
   color: #FFF;
-  background-color: #F38264;
-  border: #288D85 solid 3px;
 }
